@@ -24,7 +24,7 @@ class Event:
         german_weekday = german_weekdays[self.start_date.weekday()]
         formatted_date = self.start_date.strftime(f"{german_weekday} %d.%m")
 
-        return f"{formatted_date}\n{start_time} - {end_time}"
+        return f"{formatted_date}<BR>{start_time} - {end_time}"
 
     def format_german_month(self):
         # Deutsche Wochentage
