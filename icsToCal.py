@@ -50,6 +50,10 @@ def events_to_html_table(ics_file_path):
                         'summary': summary
                     })
 
+        # Sort events within each week by start date
+        for data in grouped_events.values():
+            data['events'] = sorted(data['events'], key=lambda x: x['start_date'])
+
         # Generate HTML table
         html_table = "<table border='1'><tr><th>Month</th><th>Week</th><th>Start Date</th><th>End Date</th><th>Summary</th></tr>"
 
