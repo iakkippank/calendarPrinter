@@ -2,6 +2,7 @@ import icalendar
 from datetime import datetime
 from collections import defaultdict
 from Event import Event
+from utils import isEvent, mapComponentToEvent, filter_events_by_month
 
 # Replace 'your_file.ics' with the path to your ICS file
 ics_file_path = 'calendar.ics'
@@ -30,28 +31,36 @@ def events_to_html_table(ics_file_path):
         cal = icalendar.Calendar.from_ical(f.read())
 
         # Group events by month and week
-        grouped_events = defaultdict(lambda: defaultdict(list))
 
-        for component in cal.walk():
-            if component.name == 'VEVENT':
-                start_date = component.get('dtstart').dt
-                end_date = component.get('dtend').dt
-                event = Event(
-                    month=start_date.month,
-                    week_of_year=start_date.strftime('%W'),
-                    start_date=start_date,
-                    end_date=end_date,
-                    summary=component.get('summary'),
-                )
 
-                if event.start_date.month == 1 or event.end_date.month == 1:
-                    # Group by month and week
-                    key = (start_date.year, event.start_date.month, event.week_of_year)
-                    grouped_events[key]['events'].append({
-                        'start_date': start_date,
-                        'end_date': end_date,
-                        'summary': event.summary
-                    })
+        event_list = cal.walk(name="VEVENT")
+
+        event_list = map(mapComponentToEvent, event_list)
+        filtered_list = filter_events_by_month(event_list,1)
+        # for event in filtered_list:
+        #     print(event.start_date)
+        sorted_events = sorted(filtered_list, key=lambda x: x.start_date)
+        #
+        # for component in cal.walk():
+        #     if component.name == 'VEVENT':
+        #         start_date = component.get('dtstart').dt
+        #         end_date = component.get('dtend').dt
+        #         event = Event(
+        #             month=start_date.month,
+        #             week_of_year=start_date.strftime('%W'),
+        #             start_date=start_date,
+        #             end_date=end_date,
+        #             summary=component.get('summary'),
+        #         )
+        #
+        #         if event.start_date.month == 1 or event.end_date.month == 1:
+        #             # Group by month and week
+        #             key = (start_date.year, event.start_date.month, event.week_of_year)
+        #             grouped_events[key]['events'].append({
+        #                 'start_date': start_date,
+        #                 'end_date': end_date,
+        #                 'summary': event.summary
+        #             })
 
         # Sort grouped_Events
         # sorted(grouped_events, key=lambda x: x['start_date'])
@@ -63,20 +72,20 @@ def events_to_html_table(ics_file_path):
         # Generate HTML table
         html_table = "<table border='1'><tr><th>Month</th><th>Week</th><th>Start Date</th><th>End Date</th><th>Summary</th></tr>"
 
-        for (year, month, week), data in grouped_events.items():
-            for event in data['events']:
-                html_table += f"<tr><td>{datetime(year, month, 1).strftime('%B')}</td>"
-                html_table += f"<td>{week}</td>"
-                html_table += f"<td>{event['start_date'].strftime('%Y-%m-%d %H:%M')}</td>"
-                html_table += f"<td>{event['end_date'].strftime('%Y-%m-%d %H:%M')}</td>"
-                html_table += f"<td>{event['summary']}</td></tr>"
+        for event in filtered_list:
+            html_table += f"<tr><td>{event.start_date.strftime('%B')}</td>"
+            html_table += f"<td>{event.week_of_year}</td>"
+            html_table += f"<td>{event.start_date.strftime('%Y-%m-%d %H:%M')}</td>"
+            html_table += f"<td>{event.end_date.strftime('%Y-%m-%d %H:%M')}</td>"
+            html_table += f"<td>{event.summary}</td></tr>"
 
-        html_table += "</table>"
+    html_table += "</table>"
 
-        # Save the HTML table to a file (replace 'output_table.html' with your desired filename)
-        with open('output_table.html', 'w', encoding="utf-8") as html_file:
-            html_file.write(html_table)
+    # Save the HTML table to a file (replace 'output_table.html' with your desired filename)
+    with open('output_table.html', 'w', encoding="utf-8") as html_file:
+        html_file.write(html_table)
 
 
 events_to_html_table(ics_file_path)
 print_january_events_without_notes(ics_file_path)
+
