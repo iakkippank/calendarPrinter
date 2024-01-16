@@ -3,32 +3,33 @@ import datetime
 from Event import Event
 
 
-def isEvent(component):
+def is_event(component):
     if component.name == 'VEVENT':
         return True
     return False
 
 
-def mapComponentToEvent(component):
+def map_component_to_event(component):
     start_date = component.get('dtstart').dt
-    min_time = datetime.datetime.now().time()
-    if type(start_date) is datetime.date:
-        start_date = datetime.datetime.combine(start_date,min_time)
     end_date = component.get('dtend').dt
-    print(type(start_date))
     return Event(
         year=start_date.year,
         month=start_date.month,
         week_of_year=start_date.strftime('%W'),
         start_date=start_date,
         end_date=end_date,
-        summary=component.get('summary')
+        summary=component.get('summary'),
+        location=component.get('location')
     )
 
-def filter_events_by_month(events, target_month):
-    return [event for event in events if event.month == target_month]
 
-def sortEventsForMonth(event):
-    if event.month == 1:
-        return True
-    return False
+def filter_events(events, target_month, target_year):
+    return [event for event in events if (event.month == target_month and event.year == target_year)]
+
+
+def clease_components(component_list):
+    event_list = list()
+    for component in component_list:
+        if isinstance(component.get('dtstart').dt, datetime.datetime):
+            event_list.append(component)
+    return event_list
