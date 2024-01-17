@@ -1,4 +1,4 @@
-from datetime import datetime, date, timedelta
+from datetime import date, timedelta
 
 
 class Event:
@@ -24,7 +24,7 @@ class Event:
         german_weekday = german_weekdays[self.start_date.weekday()]
         formatted_date = self.start_date.strftime(f"{german_weekday} %d.%m")
 
-        return f"{formatted_date}<BR>{start_time} - {end_time}"
+        return f"{formatted_date}<br style=\"mso-data-placement:same-cell;\" />{start_time} - {end_time}"
 
     def format_german_month(self):
         # Deutsche Wochentage
@@ -37,4 +37,4 @@ class Event:
         end_of_week = start_of_week + timedelta(days=6)
         start_of_week_string = start_of_week.strftime(f"%d.%m")
         end_of_week_string = end_of_week.strftime(f"%d.%m")
-        return f"Von {start_of_week_string}<BR><b>KW{self.week_of_year}</b><BR>Bis {end_of_week_string} "
+        return f"Von {start_of_week_string}<br style=\"mso-data-placement:same-cell;\" /><b>KW{self.week_of_year}</b><br style=\"mso-data-placement:same-cell;\" />Bis {end_of_week_string} "
