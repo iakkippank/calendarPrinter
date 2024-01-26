@@ -2,7 +2,7 @@ from datetime import datetime, date, timedelta
 
 
 class Event:
-    def __init__(self, year, month, week_of_year, start_date : date, end_date, location, summary):
+    def __init__(self, year, month, week_of_year, start_date: date, end_date, location, summary):
         self.year = year
         self.month = month
         self.week_of_year = week_of_year
@@ -26,11 +26,6 @@ class Event:
 
         return f"{formatted_date}<BR>{start_time} - {end_time}"
 
-    def format_german_month(self):
-        # Deutsche Wochentage
-        german_months = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
-        return german_months[self.start_date.month]
-
     def calculate_week_range(self):
         # Assuming week starts from Monday
         start_of_week = self.start_date - timedelta(days=self.start_date.weekday())
@@ -38,3 +33,10 @@ class Event:
         start_of_week_string = start_of_week.strftime(f"%d.%m")
         end_of_week_string = end_of_week.strftime(f"%d.%m")
         return f"Von {start_of_week_string}<BR><b>KW{self.week_of_year}</b><BR>Bis {end_of_week_string} "
+
+
+def format_german_month(month):
+    # Deutsche Wochentage
+    german_months = ["There is no month 0", "Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov",
+                     "Dez"]
+    return german_months[month]
