@@ -25,3 +25,27 @@ def show_selection_prompt(event_list: list[Event]) -> list[Event]:
     selection = [answer.tag for answer in answers]
 
     return selection
+
+
+def shouldDownloadIcs() -> bool:
+    choice_list = [
+        ("Download", "DOWNLOAD"),
+        ("Lokal", "LOCAL")
+    ]
+    hint_list = {
+        ("Download", "DOWNLOAD"): "(Optional) URL Liste in printerConfig.py bearbeiten",
+        ("Lokal", "LOCAL"): "Kalenderdatei (calender.ics) in den Ordner printerio legen."
+    }
+
+    # Prompt user to select events
+    questions = [
+        inquirer.List(
+            "ShouldDownload",
+            message="Woher sollen die Kalenderdaten kommen?",
+            choices=choice_list,
+            hints=hint_list,
+            default="DOWNLOAD"
+        ),
+    ]
+    answers = inquirer.prompt(questions)["ShouldDownload"]
+    return answers.tag == "DOWNLOAD"

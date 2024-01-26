@@ -1,4 +1,4 @@
-from datetime import datetime, date, timedelta
+from datetime import date, timedelta
 
 from utils.constants import GERMAN_WEEKDAYS, GERMAN_MONTHS
 

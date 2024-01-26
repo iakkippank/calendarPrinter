@@ -1,6 +1,8 @@
 import icalendar
 import requests
-
+from data.Event import Event
+from printerio.printerConfig import calendar_urls
+from utils.utils import clease_components, map_component_to_event
 
 def download_ics_files(urls, save_path):
     combined_calendar = icalendar.Calendar()
@@ -25,4 +27,12 @@ def download_ics_files(urls, save_path):
         print(f"Error saving the combined calendar: {e}")
 
 
-save_path = "combined_calendar.ics"
+def read_ics_file(ics_file: str) -> list[Event]:
+    with open(ics_file, 'rb') as f:
+        cal = icalendar.Calendar.from_ical(f.read())
+        # Group events by month and week
+        event_list = cal.walk(name="VEVENT")
+        # Removes events with no startdate e.g. events over multiple days
+        cleansed_list = clease_components(event_list)
+
+    return [map_component_to_event(event) for event in cleansed_list]

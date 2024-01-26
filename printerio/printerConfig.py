@@ -6,7 +6,8 @@ end_month = 3
 target_year = 2024
 
 calendar_urls = [
-    "https://example.com/calendar1.ics",
-    "https://example.com/calendar2.ics",
+    "https://next.die-linke.cloud/remote.php/dav/public-calendars/2xxkCAokSdWfcXGc?export",  # AG - B&G
+    "https://next.die-linke.cloud/remote.php/dav/public-calendars/Fitk6oDWdAf7373S?export",
+    # Die Linke - Veranstaltungen
     # Add more URLs as needed
 ]

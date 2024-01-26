@@ -1,7 +1,7 @@
 from typing import List
 from data.Event import Event
 from printerio.printerConfig import target_year, ics_file_path, start_month, end_month
-from utils.userCheckboxSelection import show_selection_prompt
+from utils.userInputUtils import show_selection_prompt
 from utils.htmlUtils import pretty_save_html, generate_html_table
 from utils.utils import filter_events_by_month_range, read_ics_file
 
