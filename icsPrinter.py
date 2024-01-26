@@ -1,16 +1,7 @@
 import itertools
-
 import icalendar
-from datetime import datetime
-from collections import defaultdict
-from Event import Event
-from utils import is_event, map_component_to_event, filter_events, clease_components
-
-# Replace 'your_file.ics' with the path to your ICS file
-ics_file_path = 'calendar.ics'
-output_file_path = 'output_table.html'
-target_month = 1
-target_year = 2024
+from io.printerConfig import target_month, target_year, ics_file_path
+from utils.utils import map_component_to_event, filter_events, clease_components, prettySaveHtml
 
 
 def events_to_html_table(ics_file_path):
@@ -45,9 +36,8 @@ def events_to_html_table(ics_file_path):
 
         html_table += "</table>"
 
-    # Save the HTML table to a file (replace 'output_table.html' with your desired filename)
-    with open(output_file_path, 'w', encoding="utf-8") as html_file:
-        html_file.write(html_table)
+    # Save the HTML table
+    prettySaveHtml(html_table)
 
 
 events_to_html_table(ics_file_path)
