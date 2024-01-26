@@ -23,11 +23,15 @@ def generate_html_table(selected_events: list[Event]) -> str:
     # Generate HTML table
     html_table = HTML_TABLE_HEAD
     for month, weeks in grouped_events.items():
-        total_events_in_month = sum(len(events_in_week) for events_in_week in weeks.values())
+        total_events_in_month = sum(
+            len(events_in_week) for events_in_week in weeks.values()) + 1  # No Idea why this is needed
         html_table += f"<tr><th rowspan=\"{total_events_in_month}\"><b>{format_german_month(month)}</b></th>"
         for week, events_in_week in weeks.items():
             proxy_event = events_in_week[0]
-            html_table += f"<th rowspan=\"{len(events_in_week)}\">{proxy_event.calculate_week_range()}</th>"
+            if week == next(iter(weeks.values())):
+                html_table += f"<th rowspan=\"{len(events_in_week)}\">{proxy_event.calculate_week_range()}</th>"
+            else:
+                html_table += f"<tr><th rowspan=\"{len(events_in_week)}\">{proxy_event.calculate_week_range()}</th>"
             for event in events_in_week:
                 if event == events_in_week[0]:
                     html_table += f"<td>{event.format_event_time_for_table()}</td>"
