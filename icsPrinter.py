@@ -1,11 +1,12 @@
 import itertools
 import icalendar
 from printerio.printerConfig import target_month, target_year, ics_file_path
-from utils.utils import map_component_to_event, filter_events, clease_components, prettySaveHtml
+from utils.htmlUtils import pretty_save_html
+from utils.utils import map_component_to_event, filter_events, clease_components
 
 
-def events_to_html_table(ics_file_path):
-    with open(ics_file_path, 'rb') as f:
+def events_to_html_table(ics_file : str):
+    with open(ics_file, 'rb') as f:
         cal = icalendar.Calendar.from_ical(f.read())
 
         # Group events by month and week
@@ -18,7 +19,7 @@ def events_to_html_table(ics_file_path):
         # Sort by start date
         sorted_events = sorted(filtered_list, key=lambda x: x.start_date)
         # Group by week
-        # TODO group by month aswell to print multiple months
+        # TODO group by month as well to print multiple months
         group_events = itertools.groupby(sorted_events, lambda e: e.week_of_year)
 
         # Generate HTML table
@@ -37,7 +38,7 @@ def events_to_html_table(ics_file_path):
         html_table += "</table>"
 
     # Save the HTML table
-    prettySaveHtml(html_table)
+    pretty_save_html(html_table)
 
 
 events_to_html_table(ics_file_path)

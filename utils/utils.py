@@ -33,7 +33,3 @@ def clease_components(component_list):
         if isinstance(component.get('dtstart').dt, datetime.datetime):
             event_list.append(component)
     return event_list
-
-def prettySaveHtml(htmlString : str):
-    with open(output_file_path, 'w', encoding="utf-8") as html_file:
-        html_file.write(htmlString)
