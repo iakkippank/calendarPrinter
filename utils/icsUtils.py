@@ -1,8 +1,7 @@
 import icalendar
 import requests
 from data.Event import Event
-from printerio.printerConfig import calendar_urls
-from utils.utils import clease_components, map_component_to_event
+from utils.otherUtils import clease_components, map_component_to_event
 
 
 def download_ics_files(urls) -> list[Event]:
