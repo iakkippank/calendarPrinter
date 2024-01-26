@@ -4,7 +4,7 @@ from printerio.printerConfig import target_year, ics_file_path, start_month, end
 from utils.icsUtils import read_ics_file, download_ics_files
 from utils.userInputUtils import show_selection_prompt, shouldDownloadIcs
 from utils.htmlUtils import pretty_save_html, generate_html_table
-from utils.utils import filter_events_by_month_range
+from utils.otherUtils import filter_events_by_month_range
 
 # Get calendar.ics from file
 event_list: List[Event] = []
