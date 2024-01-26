@@ -1,6 +1,6 @@
 import itertools
 import icalendar
-from io.printerConfig import target_month, target_year, ics_file_path
+from printerio.printerConfig import target_month, target_year, ics_file_path
 from utils.utils import map_component_to_event, filter_events, clease_components, prettySaveHtml
 
 

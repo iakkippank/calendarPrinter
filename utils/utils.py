@@ -1,6 +1,6 @@
 import datetime
 from data.Event import Event
-from io.printerConfig import output_file_path
+from printerio.printerConfig import output_file_path
 
 
 def is_event(component):
