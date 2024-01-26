@@ -14,6 +14,11 @@ def events_to_html_table(ics_file : str):
         # Removes events with no startdate e.g. events over multiple days
         cleansed_list = clease_components(event_list)
         event_list = map(map_component_to_event, cleansed_list)
+        if not event_list:
+            # Handle the case where element_list is empty
+            raise ValueError(
+                "Oops! Looks like there are no events for this period. Time to relax and enjoy some downtime!")
+
         # Filter for month and year
         filtered_list = filter_events(event_list, target_month, target_year)
         # Sort by start date
