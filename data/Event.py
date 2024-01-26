@@ -1,5 +1,7 @@
 from datetime import datetime, date, timedelta
 
+from utils.constants import GERMAN_WEEKDAYS, GERMAN_MONTHS
+
 
 class Event:
     def __init__(self, year, month, week_of_year, start_date: date, end_date, location, summary):
@@ -15,16 +17,26 @@ class Event:
         # Comparison based on start_date
         return self.start_date < other.start_date
 
-    def format_event(self):
-        # Deutsche Wochentage
-        german_weekdays = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
+    def format_event_time_for_table(self):
+
 
         start_time = self.start_date.strftime("%H:%M")
         end_time = self.end_date.strftime("%H:%M")
-        german_weekday = german_weekdays[self.start_date.weekday()]
+        german_weekday = GERMAN_WEEKDAYS[self.start_date.weekday()]
         formatted_date = self.start_date.strftime(f"{german_weekday} %d.%m")
 
         return f"{formatted_date}<BR>{start_time} - {end_time}"
+
+    def format_event_time_readable(self):
+        start_time = self.start_date.strftime("%H:%M")
+        end_time = self.end_date.strftime("%H:%M")
+        german_weekday = GERMAN_WEEKDAYS[self.start_date.weekday()]
+        formatted_date = self.start_date.strftime(f"{german_weekday} %d.%m.")
+
+        return f"{formatted_date} von {start_time} bis {end_time}"
+
+    def format_event_to_readable_string(self):
+        return f"{self.format_event_time_readable()} - {self.summary} (Ort: {self.location})"
 
     def calculate_week_range(self):
         # Assuming week starts from Monday
@@ -36,7 +48,4 @@ class Event:
 
 
 def format_german_month(month):
-    # Deutsche Wochentage
-    german_months = ["There is no month 0", "Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov",
-                     "Dez"]
-    return german_months[month]
+    return GERMAN_MONTHS[month]
