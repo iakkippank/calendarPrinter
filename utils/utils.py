@@ -1,7 +1,5 @@
 import datetime
-
-from Event import Event
-
+from data.Event import Event
 
 def is_event(component):
     if component.name == 'VEVENT':
@@ -9,7 +7,7 @@ def is_event(component):
     return False
 
 
-def map_component_to_event(component):
+def map_component_to_event(component) -> Event:
     start_date = component.get('dtstart').dt
     end_date = component.get('dtend').dt
     return Event(
@@ -23,8 +21,8 @@ def map_component_to_event(component):
     )
 
 
-def filter_events(events, target_month, target_year):
-    return [event for event in events if (event.month == target_month and event.year == target_year)]
+def filter_events_by_month_range(events: list[Event], start_month: int, end_month: int, year: int) -> list[Event]:
+    return [event for event in events if start_month <= event.month <= end_month and event.year == year]
 
 
 def clease_components(component_list):
