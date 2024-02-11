@@ -4,9 +4,9 @@ from data.Event import Event as DateEvent
 from utils.htmlUtils import generate_html_table, pretty_save_html
 
 
-def show_app_window(events : list[DateEvent]):
+def show_app_window(events: list[DateEvent]):
     def on_mouse_wheel(event):
-        canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
 
     def on_configure(event):
         # Update scroll region to fit the entire canvas
@@ -15,7 +15,7 @@ def show_app_window(events : list[DateEvent]):
     def show_selected_events():
         selected_events = [events[i] for i, var in enumerate(event_vars) if var.get()]
         # Make user prompt to select events
-        #selected_events = show_selection_prompt(sorted_events)
+        # selected_events = show_selection_prompt(sorted_events)
         # Group the events and generate the HTML table
         html_table = generate_html_table(selected_events)
         # Save the HTML table
@@ -32,8 +32,16 @@ def show_app_window(events : list[DateEvent]):
     # Set the theme with the theme_use method
     ttk.Style().theme_use('forest-dark')
 
+    settings_lframe = ttk.LabelFrame(root, text="Einstellungen")
+    selection_frame = ttk.Frame(root, height=1500)
+    event_list_lframe = ttk.LabelFrame(selection_frame, height=1000, text="Eingetragene Veranstaltungen")
+
+    settings_lframe.pack(side=tk.LEFT, fill=tk.Y, expand=False, pady=10, padx=10)
+    selection_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
+    event_list_lframe.pack(side=tk.TOP, fill=tk.BOTH, expand=True, pady=10, padx=10)
+
     # Create a canvas
-    canvas = tk.Canvas(root)
+    canvas = tk.Canvas(event_list_lframe)
     canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
     # Create a frame inside the canvas to hold the list of checkboxes
@@ -54,13 +62,15 @@ def show_app_window(events : list[DateEvent]):
         checkbox.pack(anchor=tk.W)
 
     # Create a scrollbar and attach it to the canvas
-    scrollbar = ttk.Scrollbar(root, orient="vertical", command=canvas.yview)
+    scrollbar = ttk.Scrollbar(event_list_lframe, orient="vertical", command=canvas.yview)
     scrollbar.pack(side=tk.RIGHT, fill="y")
     canvas.configure(yscrollcommand=scrollbar.set)
 
     # Button to select events
-    select_button = ttk.Button(root, text="Select Events", command=show_selected_events)
-    select_button.pack(pady=5)
+    download_button = ttk.Button(settings_lframe, text="Download Events", command=show_selected_events)
+    select_button = ttk.Button(selection_frame, text="Select Events", command=show_selected_events )
+    select_button.pack(side=tk.BOTTOM, pady=10, padx=10)
+    download_button.pack(pady=10,padx=10)
 
     # Start the GUI event loop
     root.mainloop()
