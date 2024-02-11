@@ -1,7 +1,9 @@
 import icalendar
 import requests
+
 from data.Event import Event
-from utils.otherUtils import clease_components, map_component_to_event
+from printerio.printerConfig import start_month, end_month, target_year
+from utils.otherUtils import clease_components, map_component_to_event, filter_events_by_month_range
 
 
 def download_ics_files(urls) -> list[Event]:
@@ -34,3 +36,16 @@ def read_ics_file(ics_file: str) -> list[Event]:
         cleansed_list = clease_components(event_list)
 
     return [map_component_to_event(event) for event in cleansed_list]
+
+
+def filter_and_sort_events(event_list) -> list[Event]:
+    # Filter for month and year
+    filtered_list = filter_events_by_month_range(
+        events=event_list,
+        start_month=start_month,
+        end_month=end_month,
+        year=target_year
+    )
+
+    # Sort by start date
+    return sorted(filtered_list, key=lambda x: x.start_date)
