@@ -1,7 +1,9 @@
 from collections import defaultdict
-from data.Event import Event, format_german_month
+
 from bs4 import BeautifulSoup as bs
-from printerio.printerConfig import output_file_path
+
+from data.Event import Event, format_german_month
+from printer_io.printerConfig import output_file_path
 from utils.constants import HTML_TABLE_HEAD
 
 
