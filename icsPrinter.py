@@ -1,5 +1,6 @@
 from typing import List
 from data.Event import Event
+from icsPrinterGUI import show_app_window
 from printerio.printerConfig import target_year, ics_file_path, start_month, end_month, calendar_urls
 from utils.icsUtils import read_ics_file, download_ics_files
 from utils.userInputUtils import show_selection_prompt, shouldDownloadIcs
@@ -10,10 +11,10 @@ from utils.otherUtils import filter_events_by_month_range
 event_list: List[Event] = []
 
 # User selection for download or local ics file
-if shouldDownloadIcs():
-    event_list = download_ics_files(calendar_urls)
-else:
-    event_list = read_ics_file(ics_file_path)
+#if shouldDownloadIcs():
+event_list = download_ics_files(calendar_urls)
+#else:
+#    event_list = read_ics_file(ics_file_path)
 
 # Handle the case where element_list is empty
 if not event_list:
@@ -31,12 +32,7 @@ filtered_list = filter_events_by_month_range(
 # Sort by start date
 sorted_events = sorted(filtered_list, key=lambda x: x.start_date)
 
-# Make user prompt to select events
-selected_events = show_selection_prompt(sorted_events)
+show_app_window(sorted_events)
 
-# Group the events and generate the HTML table
-html_table = generate_html_table(selected_events)
 
-# Save the HTML table
-pretty_save_html(html_table)
 print("Fertsch!")
