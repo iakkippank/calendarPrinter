@@ -2,7 +2,7 @@ import icalendar
 import requests
 
 from data.Event import Event
-from printerio.printerConfig import start_month, end_month, target_year
+from printer_io.printerConfig import start_month, end_month, target_year
 from utils.otherUtils import clease_components, map_component_to_event, filter_events_by_month_range
 
 
@@ -10,6 +10,7 @@ def download_ics_files(urls) -> list[Event]:
     combined_calendar = icalendar.Calendar()
     for url in urls:
         try:
+            print(f"Start downloaded from {url}")
             response = requests.get(url)
             response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
             calendar_data = response.text.encode('utf-8')

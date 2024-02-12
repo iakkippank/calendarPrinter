@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 icalendar = "*"
 requests = "*"
-inquirer = "3.2.2"
 bs4 = "*"
 
 [dev-packages]

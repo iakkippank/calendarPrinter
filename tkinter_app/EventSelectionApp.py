@@ -2,12 +2,12 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
-from printerio.printerConfig import calendar_urls, ics_file_path
+from printer_io.printerConfig import calendar_urls, ics_file_path
 from utils.htmlUtils import generate_html_table, pretty_save_html
 from utils.icsUtils import download_ics_files, read_ics_file, filter_and_sort_events
 
 
-class EventSelectorApp:
+class EventSelectionApp:
     def __init__(self, events):
         self.events = events
         self.checkboxes = []
@@ -33,7 +33,7 @@ class EventSelectorApp:
         self.root.title("Termine auswählen")
         self.root.minsize(1280, 720)
         # Import the tcl file
-        self.root.tk.call('source', 'forest-dark.tcl')
+        self.root.tk.call('source', 'theme/forest-dark.tcl')
 
         # Set the theme with the theme_use method
         ttk.Style().theme_use('forest-dark')
